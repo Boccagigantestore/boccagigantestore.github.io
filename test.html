@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bocca Gigante Production</title>
+    <style>
+        /* Stile base simile a Steam */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1b2838;
+            color: #c7d5e0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #171a21;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        header h1 {
+            color: #66c0f4;
+            font-size: 2.5em;
+        }
+        nav ul {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav ul li a {
+            color: #66c0f4;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #ffffff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-bar input {
+            padding: 10px;
+            width: 50%;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .product-card {
+            background-color: #2a475e;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 200px;
+            transition: transform 0.3s ease;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            transition: opacity 0.3s ease;
+        }
+        .product-card h3 {
+            color: #66c0f4;
+            font-size: 1.2em;
+        }
+        .product-card button {
+            background-color: #66c0f4;
+            color: #1b2838;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .product-card button:hover {
+            background-color: #ffffff;
+            transform: scale(1.1);
+        }
+        .cart-container {
+            background-color: #101822;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            animation: fadeIn 1s ease;
+        }
+        .cart-container h2 {
+            color: #66c0f4;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #2a475e;
+            animation: slideIn 0.5s ease;
+        }
+        .remove-btn {
+            background-color: #e74c3c;
+            color: #ffffff;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+        .total {
+            font-size: 1.5em;
+            margin-top: 10px;
+            color: #c7d5e0;
+        }
+        /* Animazioni */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #66c0f4;
+            color: #1b2838;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-out, fadeOut 0.5s 1.5s ease-out forwards;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Bocca Gigante Production</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#grid">Catalog</a></li>
+                <li><a href="#">Artist</a></li>
+                <li><a href="#">Event</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container">
+        <div class="search-bar">
+            <input type="text" id="searchBar" placeholder="Cerca nel catalogo..." oninput="filterProducts()">
+        </div>
+        <h2>Catalogo</h2>
+        <div class="grid" id="productGrid">
+            <div class="product-card" data-name="9/11 Simulator" data-price="0">
+                <img src="https://via.placeholder.com/200x200" alt="9/11 Simulator">
+                <h3>9/11 Simulator</h3>
+                <p>Prezzo: Free</p>
+                <button onclick="addToCart('9/11 Simulator', 0)">Aggiungi al Carrello</button>
+            </div>
+            <div class="product-card" data-name="Produzione 2" data-price="30">
+                <img src="https://via.placeholder.com/200x200" alt="Produzione 2">
+                <h3>Produzione 2</h3>
+                <p>Prezzo: €30</p>
+                <button onclick="addToCart('Produzione 2', 30)">Aggiungi al Carrello</button>
+            </div>
+        </div>
+
+        <div class="cart-container">
+            <h2>Carrello</h2>
+            <div id="cartItems"></div>
+            <p class="total">Totale: €<span id="totalPrice">0</span></p>
+        </div>
+    </section>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
+            showNotification("Aggiunto al carrello: " + name);
+        }
+
+        function removeFromCart(index) {
+            const item = cart[index];
+            cart.splice(index, 1);
+            updateCart();
+            showNotification("Rimosso dal carrello: " + item.name);
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            cartItems.innerHTML = '';
+            total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartItems.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name}</span>
+                        <span>€${item.price}</span>
+                        <button class="remove-btn" onclick="removeFromCart(${index})">Rimuovi</button>
+                    </div>`;
+            });
+            document.getElementById('totalPrice').innerText = total.toFixed(2);
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement("div");
+            notification.className = "notification";
+            notification.innerText = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 2000);
+        }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            document.querySelectorAll('.product-card').forEach(card => {
+                const productName = card.querySelector('h3').innerText.toLowerCase();
+                card.style.display = productName.includes(searchTerm) ? '' : 'none';
+            });
+        }
+    </script>
+
+</body>
+</html>
